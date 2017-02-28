@@ -12,11 +12,10 @@
 
 # dependencies
 /node_modules
+node_modules/
 /bower_components
 
 # misc
-yarn.lock
-/.sass-cache
 /connect.lock
 /coverage/*
 /libpeerconnection.log
@@ -31,4 +30,3 @@ testem.log
 jsconfig.json
 typings/
 
-node_modules/
