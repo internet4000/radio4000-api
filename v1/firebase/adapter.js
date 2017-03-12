@@ -69,6 +69,11 @@ var FILTERS = {
 
 function apiGetChannelsFiltered(filters) {
   var filterFun = function(filter, val) {
+		// Convert to boolean. Allows queries as `isFeatured=true`.
+		if (val === 'true' || val === 'false') {
+			val = Boolean(val);
+		}
+
     return function(channel) {
       var query = filter.split(".");
 
@@ -82,18 +87,21 @@ function apiGetChannelsFiltered(filters) {
         if (!elem) {
           return false;
         }
+
 				var filterMode = query[1];
 				var filterModeFun = FILTERS[filterMode];
+
 				if (filterModeFun) {
 					return filterModeFun(elem, val);
 				} else {
 					throw Error(`${filterMode} is not a valid filter mode.`);
 				}
-
       }
+
       throw Error(`${filter} is not a valid filter.`);
     }
   }
+
   return apiGetChannels().then(channels =>
     Object.keys(filters).reduce(
       (channels, filter) => channels.filter(filterFun(filter, filters[filter])),
