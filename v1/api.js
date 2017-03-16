@@ -1,8 +1,9 @@
 var express = require('express');
-var router = express.Router();
+
 var {serializeChannel,
 		 serializeTrack,
 		 serializeImage} = require('./firebase/serializer.js');
+
 var {apiGetImage,
 		 apiGetTrack,
 		 apiGetChannel,
@@ -11,6 +12,8 @@ var {apiGetImage,
 		 apiGetChannelsFiltered,
 		 apiGet,
 		 apiQuery} = require('./firebase/adapter.js');
+
+var router = express.Router();
 
 function notAnEndpoint(req, res) {
   res.status(404).json({ message: 'Impossible to request this endpoint' });
@@ -32,13 +35,16 @@ router.get('/', function (req, res) {
 });
 
 router.get('/channels', function (req, res) {
-  // TODO: remove tracks in reponse (impossible at firebase query)
 	var query = req.query;
+	var promise;
+
 	if (Object.keys(query).length) {
-		apiGetChannelsFiltered(query).then(handleSuccess(res)).catch(handleError(res));
+		promise = apiGetChannelsFiltered(query);
 	} else {
-		apiGetChannels().then(handleSuccess(res)).catch(handleError(res));
+		promise = apiGetChannels();
 	}
+
+	promise.then(handleSuccess(res)).catch(handleError(res));
 });
 
 router.get('/channels/:channelId', function (req, res) {
