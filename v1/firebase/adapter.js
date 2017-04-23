@@ -43,11 +43,13 @@ function apiGetChannel(channelId) {
 		var channel = serializeChannel(snapshot.val(), channelId);
 
 		// Replace `images` with a single `thumbnail` URL.
-		var images = Object.keys(channel.images)
-		var lastImage = images[images.length - 1]
+		var images = Object.keys(channel.images);
+		var lastImage = images[images.length - 1];
 		return apiGetImage(lastImage).then(image => {
-			delete channel.images
-			channel.thumbnail = image.src
+			delete channel.images;
+			delete channel.tracks;
+			delete channel.favoriteChannels;
+			channel.thumbnail = image.src;
 			return channel;
 		});
 	});
