@@ -40,7 +40,16 @@ function apiGetTrack(trackId) {
 
 function apiGetChannel(channelId) {
 	return apiGet(`channels/${channelId}`).then(snapshot => {
-		return serializeChannel(snapshot.val(), channelId);
+		var channel = serializeChannel(snapshot.val(), channelId);
+
+		// Replace `images` with a single `thumbnail` URL.
+		var images = Object.keys(channel.images)
+		var lastImage = images[images.length - 1]
+		return apiGetImage(lastImage).then(image => {
+			delete channel.images
+			channel.thumbnail = image.src
+			return channel;
+		});
 	});
 }
 
