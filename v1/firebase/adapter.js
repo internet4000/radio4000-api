@@ -1,5 +1,5 @@
 var firebase = require('firebase');
-var {serializeChannel, serializeTrack, serializeImage} = require('./serializer.js');
+var {serializeChannel, serializeTrack, serializeImage, embedImage} = require('./serializer.js');
 
 var firebaseConfig = {
 	apiKey: process.env.FIREBASE_API_KEY,
@@ -42,13 +42,12 @@ function apiGetChannel(channelId) {
 	return apiGet(`channels/${channelId}`).then(snapshot => {
 		var channel = serializeChannel(snapshot.val(), channelId);
 
-		// Replace `images` with a single `thumbnail` URL.
+		// Get newest image.
 		var images = Object.keys(channel.images);
 		var lastImage = images[images.length - 1];
 		return apiGetImage(lastImage).then(image => {
-			delete channel.images;
-			channel.thumbnail = image.src;
-			return channel;
+			// And embed it on the channel.
+			return embedImage(channel, image);
 		});
 	});
 }

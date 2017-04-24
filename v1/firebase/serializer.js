@@ -1,4 +1,4 @@
-var {buildCloudinaryUrl} = require('../cloudinary/adapter.js');
+var {createImageSizes} = require('../cloudinary/adapter.js');
 
 function convertHasMany(fromObject) {
 	if (!fromObject) {
@@ -29,13 +29,27 @@ function serializeTrack(track, trackId) {
 	return track;
 }
 
-function serializeImage(image, imageId) {
+function serializeImage(image, id) {
 	if (!image) {
 		return;
 	}
-	image.src = buildCloudinaryUrl(image.src);
-	image.id = imageId;
-	return image;
+	return {
+		id,
+		src: image.src,
+		sizes: createImageSizes(image.src)
+	};
 }
 
-module.exports = {serializeChannel, serializeTrack, serializeImage};
+// Replace `images` with a single `thumbnail` URL.
+function embedImage(channel, image) {
+	delete channel.images;
+	channel.image = serializeImage(image);
+	return channel;
+}
+
+module.exports = {
+	serializeChannel,
+	serializeTrack,
+	serializeImage,
+	embedImage
+};

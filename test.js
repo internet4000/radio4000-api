@@ -22,5 +22,5 @@ test('channel returns some data', async t => {
 	t.truthy(res.body.title.length);
 	t.truthy(res.body.tracks.length);
 	t.truthy(res.body.favoriteChannels.length);
-	t.truthy(res.body.thumbnail.length);
+	t.truthy(res.body.image.sizes.small);
 });
