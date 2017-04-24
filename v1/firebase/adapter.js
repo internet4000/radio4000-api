@@ -47,8 +47,6 @@ function apiGetChannel(channelId) {
 		var lastImage = images[images.length - 1];
 		return apiGetImage(lastImage).then(image => {
 			delete channel.images;
-			delete channel.tracks;
-			delete channel.favoriteChannels;
 			channel.thumbnail = image.src;
 			return channel;
 		});
