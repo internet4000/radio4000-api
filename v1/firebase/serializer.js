@@ -17,6 +17,11 @@ function serializeChannel(channel, channelId) {
 	channel.id = channelId;
 	channel.tracks = convertHasMany(channel.tracks);
 	channel.favoriteChannels = convertHasMany(channel.favoriteChannels);
+	if (channel.images) {
+		const images = convertHasMany(channel.images);
+		channel.image = images[images.length - 1];
+		delete channel.images;
+	}
 
 	return channel;
 }
@@ -40,16 +45,8 @@ function serializeImage(image, id) {
 	};
 }
 
-// Replace `images` with a single `thumbnail` URL.
-function embedImage(channel, image) {
-	delete channel.images;
-	channel.image = serializeImage(image);
-	return channel;
-}
-
 module.exports = {
 	serializeChannel,
 	serializeTrack,
-	serializeImage,
-	embedImage
+	serializeImage
 };

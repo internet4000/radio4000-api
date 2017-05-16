@@ -1,5 +1,5 @@
 var firebase = require('firebase');
-var {serializeChannel, serializeTrack, serializeImage, embedImage} = require('./serializer.js');
+var {serializeChannel, serializeTrack, serializeImage} = require('./serializer.js');
 
 var firebaseConfig = {
 	apiKey: process.env.FIREBASE_API_KEY,
@@ -41,13 +41,9 @@ function apiGetTrack(trackId) {
 function apiGetChannel(channelId) {
 	return apiGet(`channels/${channelId}`).then(snapshot => {
 		var channel = serializeChannel(snapshot.val(), channelId);
-
-		// Get newest image.
-		var images = Object.keys(channel.images);
-		var lastImage = images[images.length - 1];
-		return apiGetImage(lastImage).then(image => {
-			// And embed it on the channel.
-			return embedImage(channel, image);
+		return apiGetImage(channel.image).then(image => {
+			channel.image = image;
+			return channel;
 		});
 	});
 }
