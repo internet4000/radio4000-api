@@ -14,3 +14,13 @@ test('there are some channels', async t => {
 	t.is(res.statusCode, 200);
 	t.truthy(res.body.length);
 });
+
+test('channel returns some data', async t => {
+	var res = await request(app)
+		.get('/v1/channels/-JXHtCxC9Ew-Ilck6iZ8');
+	t.is(res.statusCode, 200);
+	t.truthy(res.body.title.length);
+	t.truthy(res.body.tracks.length);
+	t.truthy(res.body.favoriteChannels.length);
+	t.truthy(res.body.image.sizes.small);
+});

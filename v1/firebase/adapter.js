@@ -40,7 +40,11 @@ function apiGetTrack(trackId) {
 
 function apiGetChannel(channelId) {
 	return apiGet(`channels/${channelId}`).then(snapshot => {
-		return serializeChannel(snapshot.val(), channelId);
+		var channel = serializeChannel(snapshot.val(), channelId);
+		return apiGetImage(channel.image).then(image => {
+			channel.image = image;
+			return channel;
+		});
 	});
 }
 

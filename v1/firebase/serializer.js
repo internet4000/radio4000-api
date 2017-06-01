@@ -1,4 +1,4 @@
-var {buildCloudinaryUrl} = require('../cloudinary/adapter.js');
+var {createImageSizes} = require('../cloudinary/adapter.js');
 
 function convertHasMany(fromObject) {
 	if (!fromObject) {
@@ -11,13 +11,18 @@ function serializeChannel(channel, channelId) {
 	if (!channel) {
 		return;
 	}
+
+	delete channel.channelPublic;
+
 	channel.id = channelId;
 	channel.tracks = convertHasMany(channel.tracks);
 	channel.favoriteChannels = convertHasMany(channel.favoriteChannels);
-	delete channel.channelPublic;
-	// var images = Object.keys(channel.images || {});
-	// channel.image = buildCloudinaryUrl(images[images.length -1]);
-	// delete channel.images;
+	if (channel.images) {
+		const images = convertHasMany(channel.images);
+		channel.image = images[images.length - 1];
+		delete channel.images;
+	}
+
 	return channel;
 }
 
@@ -29,13 +34,19 @@ function serializeTrack(track, trackId) {
 	return track;
 }
 
-function serializeImage(image, imageId) {
+function serializeImage(image, id) {
 	if (!image) {
 		return;
 	}
-	image.src = buildCloudinaryUrl(image.src);
-	image.id = imageId;
-	return image;
+	return {
+		id,
+		src: image.src,
+		sizes: createImageSizes(image.src)
+	};
 }
 
-module.exports = {serializeChannel, serializeTrack, serializeImage};
+module.exports = {
+	serializeChannel,
+	serializeTrack,
+	serializeImage
+};

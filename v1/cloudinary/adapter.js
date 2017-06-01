@@ -1,7 +1,14 @@
-var rootUrl = 'https://res.cloudinary.com/radio4000/image/upload/q_50,w_200,h_200,c_thumb,c_fill,fl_lossy/';
+const base = 'https://res.cloudinary.com/radio4000/image/upload';
+const transforms = `q_70,f_auto,fl_lossy`;
+const url = `${base}/${transforms}`;
 
-function buildCloudinaryUrl(imageSrc) {
-	return `${rootUrl}${imageSrc}`;
+function createImageSizes(id) {
+	return {
+		small: `${url},w_200,h_200,c_thumb/${id}`,
+		medium: `${url},w_640,h_640,c_thumb/${id}`
+	};
 }
 
-module.exports = {buildCloudinaryUrl};
+module.exports = {
+	createImageSizes
+};
