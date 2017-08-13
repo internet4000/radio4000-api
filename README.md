@@ -5,10 +5,10 @@ This is the documentation and public API to [Radio4000.com](https://radio4000.co
 In this repository you can find:
 
 - [Firebase API](#firebase-api)
-- [Rules & Authentication](#rules-authentication) 
+- [Rules & Authentication](#rules--authentication) 
 - [Endpoints](#endpoints) 
 - [Models](#models)  
-- [Installation, Development and Deployment](#installation-development-deployment) 
+- [Installation, Development and Deployment](#installation-development-and-deployment) 
 - [FAQ](#frequently-and-not-frequently-asked-questions-faqnfaq)
 
 ## Firebase API
