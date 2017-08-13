@@ -1,6 +1,6 @@
 # Radio4000 API
 
-This is the documentation and public API to [Radio4000.com](https://radio4000.com). We welcome anyone to use the data, and help to improve the ecosystem.
+This is the documentation and public API to [Radio4000.com](https://radio4000.com). We welcome anyone to use the data, and to help improve the ecosystem. The Radio4000 API consists of several parts: a Firebase database as well as a node.js API.
 
 In this repository you can find:
 
@@ -8,7 +8,8 @@ In this repository you can find:
 - [Rules & Authentication](#rules--authentication) 
 - [Endpoints](#endpoints) 
 - [Models](#models)  
-- [Installation, Development and Deployment](#installation-development-and-deployment) 
+- [Node.js API](#nodejs-api) 
+- [Deployment](#deployment)
 - [FAQ](#frequently-and-not-frequently-asked-questions-faqnfaq)
 
 ## Firebase API
@@ -19,7 +20,7 @@ Thanks to Firebase, the Radio4000 data can be accessed with classic REST as well
 
 The Firebase security rules can be found in `database.rules.json`. This is the most precise definition of what can and should be done with the API. Most endpoints can be read without authentication. Reading a user, a userSettings or writing to (some) models always require authentication. For now, think of the API as read-only.
 
-The rules can be pushed to the live Firebase instance of Radio4000 with `yarn deploy-rules`. Also see [deployment](#installation-development--and-deployment).
+To deploy the rules see [deployment](#deployment).
 
 ## Endpoints
 
@@ -132,9 +133,9 @@ todo: explain our integration of the Cloudinary service.
 |url|`string`|the URL pointing to the provider serving the track media (YouTube only). Example: `"https://www.youtube.com/watch?v=5R5bETC_wvA"`|
 |ytid|`string`|provider id of a track media (YouTube only). Example: `"5R5bETC_wvA"`|
 
-## Installation, Development and Deployment
+## Node.js API
 
-In addition to the Firebase API, this repository contains a node.js API in the `src` folder. This is what runs at https://api.radio4000.com.
+In addition to the Firebase API, this repository contains a node.js API in the `src` folder. This is what runs at https://api.radio4000.com. It is configured as a Firebase function. Remember to review the `.firebaserc` and `firebase.json` files.
 
 To install, you'll need node.js and git. Then run:
 
@@ -149,18 +150,26 @@ To start a local development server, run
 - `yarn start`  
 - `firebase serve --only hosting,functions`
 
-To deploy to Firebase, make sure you have the Firebase tools installed:
+You can test it using `yarn test` which runs `ava` on the `test` folder.
+
+## Deployment
+
+Before you can deploy either the Firebase security rules or the Node.js API, make sure you have the Firebase tools installed:
 
 1. `yarn global add firebase-tools`
 2. `firebase login`
 
-Then you can deploy either the API or the rules:
+**Deploying rules**
 
-- `yarn deploy-api`
-- `yarn deploy-rules`
+1. Get permissions to the Firebase project `firebase-radio4000`
+2. Run `yarn deploy-rules`
+3. Now live at https://radio4000.firebaseio.com
 
-Deploying the API will update https://api.radio4000.com.  
-Deploying the rules will push `database.rules.json` to the production instance of Radio4000.
+**Deploying the Node.js API**
+
+1. Get permission to the Firebase project `radio4000-api`
+2. Run `yarn deploy-api`
+3. Now live at https://api.radio4000.com
 
 ## Frequently and not-frequently asked questions (FAQNFAQ)
 
