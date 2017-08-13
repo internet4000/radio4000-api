@@ -257,24 +257,29 @@ Here's an example of what is returned:
 }
 ```
 
-## Developing
+## Development
 
-Clone the repository, cd into it and install dependencies with `yarn install`. Then do `yarn run` to see which commands are available.
+To install, run this:
 
-### Firebase
+```
+git clone git@github.com:internet4000/radio4000-api.git
+cd radio4000-api
+yarn; cd src; yarn; cd ..
+```
 
-Make sure you have installed the Firebase tools:
+To start a local development serve, run either `yarn start` or `firebase serve --only hosting,functions`.
+
+## Deploying
+
+To deploy to Firebase, make sure you have the Firebase tools installed:
 
 1. `yarn global add firebase-tools`
 2. `firebase login`
 
-Then to start a server:
+Now you can deploy either rules or the API:
 
-- `firebase serve --only functions,hosting`
+- `yarn deploy-api`
+- `yarn deploy-rules`
 
-This will start two local servers. One for functions, one for hosting.
-
-To deploy it, run:
-
-- `firebase deploy --only functions`
->>>>>>> embed/master
+Deploying the API will update https://api.radio4000.com.  
+Deploying the rules will push `database.rules.json` to the production instance of Radio4000.
