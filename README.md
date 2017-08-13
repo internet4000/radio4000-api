@@ -73,9 +73,9 @@ Requires authentication to read and write.
 
 |name|type|description|
 |----|----|----|
-|channels|`hasMany`|All radio channels belonging to a user. We only allow one, for now. Example: `{"-KYJykyCl6nIJi6YIuBO": true}`|
-|created|`integer`|timestamp describing when was this user created. Example: `1481041965335`|
-|settings|`belongsTo`|relationship with the `userSetting` model. Example: `-KYJyixLTbITr103hovZ`|
+|channels|`hasMany`|list of radio `channel`s belonging to a user. We only allow one, for now. Example: `{"-KYJykyCl6nIJi6YIuBO": true}`|
+|created|`integer`|timestamp from when the user was created. Example: `1481041965335`|
+|settings|`belongsTo`|relationship to a `userSetting` model. Example: `-KYJyixLTbITr103hovZ`|
 
 ### userSetting
 
@@ -92,16 +92,16 @@ Requires authentication to write.
 |name|type|description|
 |----|----|----|
 |body|`string`|user description of the radio channel. Example: `"The channel of your wet dreams, an ode to perfu..."`|
-|channelPublic|`belongsTo`|reference to the `channelPublic` id of this radio channel. Example: `"-JoJm13j3aGTWCT_Zbir"`|
+|channelPublic|`belongsTo`|relationship to a `channelPublic`. Example: `"-JoJm13j3aGTWCT_Zbir"`|
 |created|`integer`|timestamp describing when was this radio channel created. Example: `"1411213745028"`|
 |favoriteChannels|`hasMany`|list of all channels this radio has added as favorites. Example: `"-JXHtCxC9Ew-Ilck6iZ8": true`|
-|images|`hasMany`|all images added to a radio. Example: `"-JoJypAujT2z0qcWnYjW": true`|
+|images|`hasMany`|list of `image` models. Example: `"-JoJypAujT2z0qcWnYjW": true`|
 |isFeatured|`boolean`|is this radio channel featured on radio4000's homepage . Example: `false`|
 |link|`string`|URL describing the external homepage for a radio channel. Example: `"https://example.com"`|
 |slug|`string`|the unique "string id" representing this channel (used for human readable urls radio4000.com/slug). Example: `"oskar"`|
 |title|`string`|title representing a radio channel. Example: `"Radio Oskar"`|
-|tracks|`hasMany`|list of `track` models offered by a radio channel. Example: `"-J_GkkhzfbefhHMqV5qi": true`|
-|updated|`integer`|timestamp describing when was this radio last updated. Example: `1498137205047`|
+|tracks|`hasMany`|list of `track` models. Example: `{"-J_GkkhzfbefhHMqV5qi": true, ...}`|
+|updated|`integer`|timestamp when the radio was last updated. Example: `1498137205047`|
 
 ### channelPublic
 
@@ -109,8 +109,8 @@ Requires authentication to write.
 
 |name|type|description|
 |-|-|-|
-|channel|`belongsTo`)|`channel` model to which belongs this `channelPublic`. Example: `"-JYEosmvT82Ju0vcSHVP"`|
-|followers|`hasMany`|list of `channel` models following this radio. Example: `"-JXHtCxC9Ew-Ilck6iZ8": true`|
+|channel|`belongsTo`|relationship to a `channel` model. Example: `"-JYEosmvT82Ju0vcSHVP"`|
+|followers|`hasMany`|list of `channel` models following this radio. Example: `{"-JXHtCxC9Ew-Ilck6iZ8": true, ...}`|
 
 ### Image
 
@@ -126,7 +126,7 @@ todo: explain our integration of the Cloudinary service.
 |name|type|description|
 |-|-|-|
 |body|`string`|optional description to the track. Example: `"Post-Punk from USA (NY)"`|
-|channel|`belongsTo` (string)|relationship to `channel` model|
+|channel|`belongsTo`|relationship to `channel` model|
 |created|`integer`|date timestamp from when the model is created|
 |title|`string`|required title of the track. Example: `"Lydia Lunch - This Side of Nowhere (1982)"`|
 |url|`string`|the URL pointing to the provider serving the track media (YouTube only). Example: `"https://www.youtube.com/watch?v=5R5bETC_wvA"`|
