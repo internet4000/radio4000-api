@@ -5,97 +5,53 @@ This is the documentation and public API to [Radio4000.com](https://radio4000.co
 In this repository you can find:
 
 - [Firebase API](#firebase-api)
-- [Rules](#rules) 
+- [Rules & Authentication](#rules-authentication) 
 - [Endpoints](#endpoints) 
 - [Models](#models)  
-- [Development](#development) 
-- [Deployment](#deployment)  
+- [Installation, Development and Deployment](#installation-development-deployment) 
 - [FAQ](#frequently-and-not-frequently-asked-questions-faqnfaq)
 
 ## Firebase API
 
-- [https://radio4000.firebaseio.com](https://radio4000.firebaseio.com)
+Thanks to Firebase the Radio4000 data can be accessed in realtime through this API, as well as classic REST. The [Firebase documentation](https://firebase.google.com/docs/) explains how you can access the data for various platforms: Web, Android, iOS, C++, Unity. This API supports `GET` HTTP methods. There is no versioning for this API as we have to follow and replicate any changes made at the Firebase level. Note that Firebase stores arrays as objects where the key of each object is the `id` of the model.
 
-Thanks to Firebase the Radio4000 data can be accessed in realtime through this API, as well as classic REST. The [Firebase documentation](https://firebase.google.com/docs/) explains how you can access the data for various platforms: Web, Android, iOS, C++, Unity. This API supports `GET` HTTP methods.
+## Rules & authentication
 
-There is no versioning for this API as we have to follow and replicate any changes made at the Firebase level. Note that Firebase stores arrays as objects where the key of each object is the `id` of the model.
+The Firebase security rules can be found in `database.rules.json`. This is the most precise definition of what can and should be done with the API. Most endpoints can be read without authentication. Reading a user, a userSettings or writing to (some) models always require authentication. For now, think of the API as read-only.
 
-### Rules
+## Endpoints
 
-The Firebase security rules can be found in `database.rules.json`. This is the most precise definition of what can and should be done with the API.
+Here's a list of available REST endpoints. They are all available via normal `GET` HTTP requests.
 
-### Endpoints
-
-Most endpoints can be read without authentication.
-
-Reading a user, a userSettings or writting to some models always requires authentication.
-
-Here's a list of available REST endpoints and their corresponding model:
-
-* `/users` serves the `user` models
-	* [https://radio4000.firebaseio.com/users/{id}.json](https://radio4000.firebaseio.com/users/{id}.json)
-
-- `/userSettings` serves the `userSetting` models
-	- [https://radio4000.firebaseio.com/userSettings/{id}.json](https://radio4000.firebaseio.com/userSettings/{id}.json)
-
-- `/channels` serves the `channel` models
-	- [https://radio4000.firebaseio.com/channels.json](https://radio4000.firebaseio.com/channels.json)
-	- [https://radio4000.firebaseio.com/channels/{channelId}.json](https://radio4000.firebaseio.com/channels/{id}.json)
-
-- `/channelPublics` serves the `channelPublic` models
-	- [https://radio4000.firebaseio.com/channelPublics/{id}.json](https://radio4000.firebaseio.com/channelPublics/{id}.json)
-
-- `/images` serves the `image` models
-	- [https://radio4000.firebaseio.com/images/{id}.json](https://radio4000.firebaseio.com/images/{id}.json)
-
-- `/tracks` serves the `track` models
-	- [https://radio4000.firebaseio.com/tracks.json](https://radio4000.firebaseio.com/tracks.json)
-	- [https://radio4000.firebaseio.com/tracks/{id}.json](https://radio4000.firebaseio.com/tracks/{id}.json)
-
+**List of endpoints at https://radio4000.firebaseio.com**.
 
 For *realtime* database access, you should refer to the [Firebase SDK](https://firebase.google.com/docs/) available for your platform.
 
-## Custom endpoints
+|URL|Description|
+|--------|-------|
+|https://radio4000.firebaseio.com/users/{id}.json|All users|
+|https://radio4000.firebaseio.com/userSettings/{id}.json|Single user setting|
+|https://radio4000.firebaseio.com/channels.json|All channels|
+|https://radio4000.firebaseio.com/channels/{id}.json|Single channels|
+|https://radio4000.firebaseio.com/channelPublics/{id}.json|All channel publics|
+|https://radio4000.firebaseio.com/images/{id}.json|All images|
+|https://radio4000.firebaseio.com/tracks.json|All tracks from all channels|
+|https://radio4000.firebaseio.com/tracks/{id}.json|Single track|
 
-These endpoints are available at https://api.radio4000.com. This is a node.js API in `src/app.js`. 
+**List of endpoints at https://api.radio4000.com**.
 
-### /iframe
+These come from the node.js app in this repo.
 
-- `/iframe?slug={radio4000-channel-slug}`
+|URL|Description|
+|--------|-------|
+|https://api.radio4000.com/iframe?slug={channelSlug}|Returns an HTML embed with the [radio4000-player](https://github.com/internet4000/radio4000-player)|
+|https://api.radio4000.com/oembed?slug={channelSlug}|Returns a `JSON` object following the [oEmbed spec](http://oembed.com/) for a Radio4000 channel. With this, we can add a meta tag to each channel to get rich previews when the link is shared.|
 
-Returns an `HTML` document with an instance of the [radio4000-vue-player](https://github.com/internet4000/radio4000-player-vue).
+The `iframe` endpoint is meant to be used as the `src` of our `<iframe>` embeds. To get the HTML for the iframe embed, visit the `/oembed` endpoint and see the `html` property.
 
-This endpoint is meant to be used as the `src` of our `<iframe>` embeds. To get the HTML for the iframe embed, visit the `/oembed` endpoint and see the `html` property. The HTML template returned is here: `/templates/embed.html`.
-
-## /oembed
-
-- `/oembed?slug={radio4000-channel-slug}`
-
-Returns a `JSON` object following the [oEmbed spec](http://oembed.com/) for a Radio4000 channel.
-
-With this, we can add a meta tag to each channel to get rich previews when the link is shared. Like this:
-
+Here's an example of how to use the oembed:
 ```html
-<link rel="alternate" type="application/json+oembed" href="https://embed.radio4000.com/oembed?slug=200ok" title="200ok">
-```
-
-Here's an example of what is returned:
-
-```json
-{
-  "version": "1.0",
-  "type": "rich",
-  "provider_name": "Radio4000",
-  "provider_url": "https://radio4000.com/",
-  "author_name": "200ok",
-  "author_url": "https://radio4000.com/200ok/",
-  "title": "200ok",
-  "description": "Textures, drums, breaks and grooves #am to #pm",
-  "thumbnail_url": "https://assets.radio4000.com/radio4000-icon.png",
-  "html": "<iframe width=\"320\" height=\"400\" src=\"https://embed.radio4000.com/iframe?slug=200ok\" frameborder=\"0\"></iframe>",
-  "width": 320,
-  "height": 400
-}
+<link rel="alternate" type="application/json+oembed" href="https://api.radio4000.com/oembed?slug=200ok" title="200ok">
 ```
 
 ## Models
