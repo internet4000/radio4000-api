@@ -134,6 +134,8 @@ todo: explain our integration of the Cloudinary service.
 
 ## Installation, Development and Deployment
 
+In addition to the Firebase API, this repository contains a node.js API in the `src` folder. This is what runs at https://api.radio4000.com.
+
 To install, you'll need node.js and git. Then run:
 
 ```
