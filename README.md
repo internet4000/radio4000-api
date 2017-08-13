@@ -4,39 +4,32 @@ This is the documentation and public API to [Radio4000.com](https://radio4000.co
 
 In this repository you can find:
 
-- `readme.md`: this document, presenting and explaining how to use Radio4000's API
-- `database.rules.json`: Firebase's security rules. Those are the most precise definition of what can/should be done with the API
-
 - [Firebase API](#firebase-api)
-- [Firebase Endpoints](#firebase-endpoints)
-- [Custom Endpoints](#custom-endpoints)
-- [Models](#models)
-- [Installation](#installation)
-- [Development](#development)
+- [Rules](#rules) 
+- [Endpoints](#endpoints) 
+- [Models](#models)  
+- [Development](#development) 
+- [Deployment](#deployment)  
 
 ## Firebase API
 
+- [https://radio4000.firebaseio.com](https://radio4000.firebaseio.com)
+
 Thanks to Firebase the Radio4000 data can be accessed in realtime through this API, as well as classic REST. The [Firebase documentation](https://firebase.google.com/docs/) explains how you can access the data for various platforms: Web, Android, iOS, C++, Unity. This API supports `GET` HTTP methods.
 
-## URI and Versioning
+There is no versioning for this API as we have to follow and replicate any changes made at the Firebase level. Note that Firebase stores arrays as objects where the key of each object is the `id` of the model.
 
-The API can be found here: [https://radio4000.firebaseio.com](https://radio4000.firebaseio.com).
+### Rules
 
-There is no versioning for this API as we have to follow and replicate any changes made at the Firebase level.
+The Firebase security rules can be found in `database.rules.json`. This is the most precise definition of what can and should be done with the API.
 
-
-## Design
-
-In Firebase, the `id` of a model is the root key of the object containing its properties.
-
-
-### Firebase endpoints
+### Endpoints
 
 Most endpoints can be read without authentication.
 
 Reading a user, a userSettings or writting to some models always requires authentication.
 
-Here's a list of available REST endpoints and which model they correspond to:
+Here's a list of available REST endpoints and their corresponding model:
 
 * `/users` serves the `user` models
 	* [https://radio4000.firebaseio.com/users/{id}.json](https://radio4000.firebaseio.com/users/{id}.json)
