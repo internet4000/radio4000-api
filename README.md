@@ -80,27 +80,19 @@ Listed below are all available models and their properties.
 
 Requires authentication to read and write.
 
-- channels [hasMany, string]: all radio channels a user has. We only allow one, for now.
-
-example: `"-KYJykyCl6nIJi6YIuBO": true`
-
-- created [integer]: timestamp describing when was this user created
-
-example: `1481041965335`
-
-- settings [string]: reference to the `userSetting` model id
-
-example: `-KYJyixLTbITr103hovZ`
-
+|name|type|desc|
+|----|----|----|
+|channels|`hasMany`|All radio channels belonging to a user. We only allow one, for now. Example: `{"-KYJykyCl6nIJi6YIuBO": true}`|
+|created|`integer`|timestamp describing when was this user created. example: `1481041965335`|
+|settings|`belongsTo`|relationship with the `userSetting` model. example: `-KYJyixLTbITr103hovZ`|
 
 ### userSetting
 
 Requires authentication to read and write.
 
-- user [belongsTo, string]: reference to the `user` model id
-
-example: `"fAE1TRvTctbK4bEra3GnQdBFcqj2"`
-
+|name|type|desc|
+|----|----|----|
+|user|belongsTo (string)|Relationship to a single `user` model. Example: `"fAE1TRvTctbK4bEra3GnQdBFcqj2"`|
 
 ### channel
 
