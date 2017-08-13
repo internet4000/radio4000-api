@@ -10,6 +10,7 @@ In this repository you can find:
 - [Models](#models)  
 - [Development](#development) 
 - [Deployment](#deployment)  
+- [FAQ](#frequently-and-not-frequently-asked-questions-faqnfaq)
 
 ## Firebase API
 
@@ -99,7 +100,7 @@ Here's an example of what is returned:
 
 ## Models
 
-Listed below are all available models and their properties.
+Listed below are all available models and their properties. Also see this folder https://github.com/internet4000/radio4000/tree/master/app/models.
 
 - [user](#user)
 - [userSetting](#usersetting)
@@ -108,22 +109,21 @@ Listed below are all available models and their properties.
 - [image](#image)
 - [track](#track)
 
-
 ### user
 
 Requires authentication to read and write.
 
-|name|type|desc|
+|name|type|description|
 |----|----|----|
 |channels|`hasMany`|All radio channels belonging to a user. We only allow one, for now. Example: `{"-KYJykyCl6nIJi6YIuBO": true}`|
-|created|`integer`|timestamp describing when was this user created. example: `1481041965335`|
-|settings|`belongsTo`|relationship with the `userSetting` model. example: `-KYJyixLTbITr103hovZ`|
+|created|`integer`|timestamp describing when was this user created. Example: `1481041965335`|
+|settings|`belongsTo`|relationship with the `userSetting` model. Example: `-KYJyixLTbITr103hovZ`|
 
 ### userSetting
 
 Requires authentication to read and write.
 
-|name|type|desc|
+|name|type|description|
 |----|----|----|
 |user|belongsTo (string)|Relationship to a single `user` model. Example: `"fAE1TRvTctbK4bEra3GnQdBFcqj2"`|
 
@@ -131,106 +131,52 @@ Requires authentication to read and write.
 
 Requires authentication to write.
 
-- body: [string]: user description of the radio channel
-
-example: `"The channel of your wet dreams, an ode to perfu..."`
-
-- channelPublic [belongsTo, string]: reference to the `channelPublic` id of this radio channel
-
-example: `"-JoJm13j3aGTWCT_Zbir"`
-
-- created [integer]: timestamp describing when was this radio channel created
-
-example: `"1411213745028"`
-
-- favoriteChannels [hasMany, string]: list of all channels this radio has added as favorites
-
-example: `"-JXHtCxC9Ew-Ilck6iZ8": true`
-
-- images [hasMany, string]: all images added to a radio
-
-example: `"-JoJypAujT2z0qcWnYjW": true`
-
-- isFeatured [boolean]: is this radio channel featured on radio4000's homepage 
-
-example: `false`
-
-- link [string]: URL describing the external homepage for a radio channel
-
-example: `"https://example.com"`
-
-- slug [string]: the unique "string id" representing this channel (used for human readable urls radio4000.com/slug)
-
-example: `"oskar"`
-
-- title [string]: title representing a radio channel
-
-example: `"Radio Oskar"`
-
-- tracks [hasMany, string]: list of `track` models offered by a radio channel
-
-example: `"-J_GkkhzfbefhHMqV5qi": true`
-
-- updated [integer]: timestamp describing when was this radio last updated
-
-example: `1498137205047`
-
+|name|type|description|
+|----|----|----|
+|body|`string`|user description of the radio channel. Example: `"The channel of your wet dreams, an ode to perfu..."`|
+|channelPublic|`belongsTo`|reference to the `channelPublic` id of this radio channel. Example: `"-JoJm13j3aGTWCT_Zbir"`|
+|created|`integer`|timestamp describing when was this radio channel created. Example: `"1411213745028"`|
+|favoriteChannels|`hasMany`|list of all channels this radio has added as favorites. Example: `"-JXHtCxC9Ew-Ilck6iZ8": true`|
+|images|`hasMany`|all images added to a radio. Example: `"-JoJypAujT2z0qcWnYjW": true`|
+|isFeatured|`boolean`|is this radio channel featured on radio4000's homepage . Example: `false`|
+|link|`string`|URL describing the external homepage for a radio channel. Example: `"https://example.com"`|
+|slug|`string`|the unique "string id" representing this channel (used for human readable urls radio4000.com/slug). Example: `"oskar"`|
+|title|`string`|title representing a radio channel. Example: `"Radio Oskar"`|
+|tracks|`hasMany`|list of `track` models offered by a radio channel. Example: `"-J_GkkhzfbefhHMqV5qi": true`|
+|updated|`integer`|timestamp describing when was this radio last updated. Example: `1498137205047`|
 
 ### channelPublic
 
 `channelPublic` is a model always associated to a `channel` model. It is used so any authenticated user can associate data to a `channel`, when a `channel` can only be written by its owner. For exemple, adding a radio as follower will be done on the `channelPublic` model.
 
-- channel [belongsTo, string]: `channel` model to which belongs this `channelPublic`
+|name|type|description|
+|-|-|-|
+|channel|`belongsTo` (`string`)|`channel` model to which belongs this `channelPublic`. Example: `"-JYEosmvT82Ju0vcSHVP"`|
+|followers|`hasMany`|list of `channel` models following this radio. Example: `"-JXHtCxC9Ew-Ilck6iZ8": true`|
 
-example: `"-JYEosmvT82Ju0vcSHVP"`
+### Image
 
-- followers [hasMany, string]: list of `channel` models following this radio
+|name|type|description|
+|-|-|-|
+|channels|belongsTo, string|relationship to the `channel` model|
+|src|string|`id` of the `cloudinary` model which stores this image data.|
 
-example: `"-JXHtCxC9Ew-Ilck6iZ8": true`
+todo: explain our integration of the Cloudinary service.
 
+### Track
 
-### image
+|name|type|description|
+|-|-|-|
+|body|`string`|optional description to the track. Example: `"Post-Punk from USA (NY)"`|
+|channel|`belongsTo` (string)|relationship to `channel` model|
+|created|`integer`|date timestamp from when the model is created|
+|title|`string`|required title of the track. Example: `"Lydia Lunch - This Side of Nowhere (1982)"`|
+|url|`string`|the URL pointing to the provider serving the track media (YouTube only). Example: `"https://www.youtube.com/watch?v=5R5bETC_wvA"`|
+|ytid|`string`|provider id of a track media (YouTube only). Example: `"5R5bETC_wvA"`|
 
-- channel [belongsTo, string]: `channel` model to which this image belongs.
+## Installation, Development and Deployment
 
-example: `"-JYZtdQfLSl6sUpyIJx6"`
-
-- src [string]: `id` of the `cloudinary` model which stores this image data.
-
-example: `"czepsdiizx5gx10gnufe"`
-
-todo: explain cloudinary
-
-
-### track
-
-- body [string]: optional user description of a track
-
-example: `"Post-Punk from USA (NY)"`
-
-- channel [belongsTo, string]: the channel to which a track belongs to
-
-example: `"-K9RmTg2B3gqldaFnART"`
-
-- created [integer]: timestamp describing when was created a track model
-
-example: `1478878156138`
-
-- title [string]: title describing a track model
-
-example: `"Lydia Lunch - This Side of Nowhere (1982)"`
-
-- url [string]: the URL pointing to the provider serving the track media (Youtube only for now)
-
-example: `"https://www.youtube.com/watch?v=5R5bETC_wvA"`
-
-- ytid [string]: provider id of a track media (Youtube only for now)
-
-example: `"5R5bETC_wvA"`
-
-## Development
-
-To install, run this:
+To install, you'll need node.js and git. Then run:
 
 ```
 git clone git@github.com:internet4000/radio4000-api.git
@@ -238,16 +184,17 @@ cd radio4000-api
 yarn; cd src; yarn; cd ..
 ```
 
-To start a local development serve, run either `yarn start` or `firebase serve --only hosting,functions`.
+To start a local development server, run
 
-## Deployment
+- `yarn start`  
+- `firebase serve --only hosting,functions`
 
 To deploy to Firebase, make sure you have the Firebase tools installed:
 
 1. `yarn global add firebase-tools`
 2. `firebase login`
 
-Now you can deploy either rules or the API:
+Then you can deploy either the API or the rules:
 
 - `yarn deploy-api`
 - `yarn deploy-rules`
