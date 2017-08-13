@@ -1,24 +1,22 @@
 # Radio4000 API
 
-Public API to [Radio4000.com](https://radio4000.com) using Firebase realtime capabilities.
+This is the documentation and public API to [Radio4000.com](https://radio4000.com). We welcome anyone to use the data, and help to improve the ecosystem.
 
-This API supports `GET` HTTP methods.
-
-
-## Introduction
-
-Thanks to Firebase the Radio4000 data can be accessed in realtime through this API, as well as classic REST. The [Firebase documentation](https://firebase.google.com/docs/) explains how you can access the data for various platforms: Web, Android, iOS, C++, Unity.
-
-We welcome anyone to use the data, and help to improve the ecosystem.
-
-
-## Folder structure
-
-In this git repository you can find:
+In this repository you can find:
 
 - `readme.md`: this document, presenting and explaining how to use Radio4000's API
 - `database.rules.json`: Firebase's security rules. Those are the most precise definition of what can/should be done with the API
 
+- [Firebase API](#firebase-api)
+- [Firebase Endpoints](#firebase-endpoints)
+- [Custom Endpoints](#custom-endpoints)
+- [Models](#models)
+- [Installation](#installation)
+- [Development](#development)
+
+## Firebase API
+
+Thanks to Firebase the Radio4000 data can be accessed in realtime through this API, as well as classic REST. The [Firebase documentation](https://firebase.google.com/docs/) explains how you can access the data for various platforms: Web, Android, iOS, C++, Unity. This API supports `GET` HTTP methods.
 
 ## URI and Versioning
 
@@ -32,7 +30,7 @@ There is no versioning for this API as we have to follow and replicate any chang
 In Firebase, the `id` of a model is the root key of the object containing its properties.
 
 
-### Endpoints and realtime
+### Firebase endpoints
 
 Most endpoints can be read without authentication.
 
@@ -63,6 +61,48 @@ Here's a list of available REST endpoints and which model they correspond to:
 
 For *realtime* database access, you should refer to the [Firebase SDK](https://firebase.google.com/docs/) available for your platform.
 
+## Custom endpoints
+
+These endpoints are available at https://api.radio4000.com. This is a node.js API in `src/app.js`. 
+
+### /iframe
+
+- `/iframe?slug={radio4000-channel-slug}`
+
+Returns an `HTML` document with an instance of the [radio4000-vue-player](https://github.com/internet4000/radio4000-player-vue).
+
+This endpoint is meant to be used as the `src` of our `<iframe>` embeds. To get the HTML for the iframe embed, visit the `/oembed` endpoint and see the `html` property. The HTML template returned is here: `/templates/embed.html`.
+
+## /oembed
+
+- `/oembed?slug={radio4000-channel-slug}`
+
+Returns a `JSON` object following the [oEmbed spec](http://oembed.com/) for a Radio4000 channel.
+
+With this, we can add a meta tag to each channel to get rich previews when the link is shared. Like this:
+
+```html
+<link rel="alternate" type="application/json+oembed" href="https://embed.radio4000.com/oembed?slug=200ok" title="200ok">
+```
+
+Here's an example of what is returned:
+
+```json
+{
+  "version": "1.0",
+  "type": "rich",
+  "provider_name": "Radio4000",
+  "provider_url": "https://radio4000.com/",
+  "author_name": "200ok",
+  "author_url": "https://radio4000.com/200ok/",
+  "title": "200ok",
+  "description": "Textures, drums, breaks and grooves #am to #pm",
+  "thumbnail_url": "https://assets.radio4000.com/radio4000-icon.png",
+  "html": "<iframe width=\"320\" height=\"400\" src=\"https://embed.radio4000.com/iframe?slug=200ok\" frameborder=\"0\"></iframe>",
+  "width": 320,
+  "height": 400
+}
+```
 
 ## Models
 
@@ -195,68 +235,6 @@ example: `"https://www.youtube.com/watch?v=5R5bETC_wvA"`
 
 example: `"5R5bETC_wvA"`
 
-
-## List of projects using the Radio4000 API.
-
-- [radio4000.com](https://github.com/internet4000/radio4000): the main website use this exact API via the JavaScript SDK.
-- [radio4000-player-vue](https://github.com/internet4000/radio4000-player-vue): the media player used by radio4000.com is a vue.js project communicating with this API via REST.
-
-Do you want your project to appear here? Send a pull request or get in touch!
-
-
-## Frequently and not-frequently asked questions (FAQNFAQ)
-
-- Why Firebase?
-
-Firebase allowed this project to come to life without having the need to spend time building and maintaining backend software. It also allows us to be more secure we think we could be on our own, handling the storage and protection of user's sensitive data. In a perfect world we would like to have a backend that we fully control, running only free and open source softwares. The future will be great.
-
-# Radio4000 Embed API
-
-This is the API for creating iframe and oEmbeds for Radio4000 channels. It uses Node.js and Express.js.
-
-## Endpoints
-
-List of all available endpoints on https://embed.radio4000.com.
-
-### /iframe
-
-- `/iframe?slug={radio4000-channel-slug}`
-
-Returns an `HTML` document with an instance of the [radio4000-vue-player](https://github.com/internet4000/radio4000-player-vue).
-
-This endpoint is meant to be used as the `src` of our `<iframe>` embeds. To get the HTML for the iframe embed, visit the `/oembed` endpoint and see the `html` property. The HTML template returned is here: `/templates/embed.html`.
-
-## /oembed
-
-- `/oembed?slug={radio4000-channel-slug}`
-
-Returns a `JSON` object following the [oEmbed spec](http://oembed.com/) for a Radio4000 channel.
-
-With this, we can add a meta tag to each channel to get rich previews when the link is shared. Like this:
-
-```html
-<link rel="alternate" type="application/json+oembed" href="https://embed.radio4000.com/oembed?slug=200ok" title="200ok">
-```
-
-Here's an example of what is returned:
-
-```json
-{
-  "version": "1.0",
-  "type": "rich",
-  "provider_name": "Radio4000",
-  "provider_url": "https://radio4000.com/",
-  "author_name": "200ok",
-  "author_url": "https://radio4000.com/200ok/",
-  "title": "200ok",
-  "description": "Textures, drums, breaks and grooves #am to #pm",
-  "thumbnail_url": "https://assets.radio4000.com/radio4000-icon.png",
-  "html": "<iframe width=\"320\" height=\"400\" src=\"https://embed.radio4000.com/iframe?slug=200ok\" frameborder=\"0\"></iframe>",
-  "width": 320,
-  "height": 400
-}
-```
-
 ## Development
 
 To install, run this:
@@ -269,7 +247,7 @@ yarn; cd src; yarn; cd ..
 
 To start a local development serve, run either `yarn start` or `firebase serve --only hosting,functions`.
 
-## Deploying
+## Deployment
 
 To deploy to Firebase, make sure you have the Firebase tools installed:
 
@@ -283,3 +261,16 @@ Now you can deploy either rules or the API:
 
 Deploying the API will update https://api.radio4000.com.  
 Deploying the rules will push `database.rules.json` to the production instance of Radio4000.
+
+## Frequently and not-frequently asked questions (FAQNFAQ)
+
+- Why Firebase?
+
+Firebase allowed this project to come to life without having the need to spend time building and maintaining backend software. It also allows us to be more secure we think we could be on our own, handling the storage and protection of user's sensitive data. In a perfect world we would like to have a backend that we fully control, running only free and open source softwares. The future will be great.
+
+- Which projects use the Radio4000 API?
+
+- [radio4000.com](https://github.com/internet4000/radio4000): the main website use this exact API via the JavaScript SDK.
+- [radio4000-player-vue](https://github.com/internet4000/radio4000-player-vue): the media player used by radio4000.com is a vue.js project communicating with this API via REST.
+
+Do you want your project to appear here? Send a pull request or get in touch!
