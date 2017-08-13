@@ -13,7 +13,7 @@ In this repository you can find:
 
 ## Firebase API
 
-Thanks to Firebase the Radio4000 data can be accessed in realtime through this API, as well as classic REST. The [Firebase documentation](https://firebase.google.com/docs/) explains how you can access the data for various platforms: Web, Android, iOS, C++, Unity. This API supports `GET` HTTP methods. There is no versioning for this API as we have to follow and replicate any changes made at the Firebase level. Note that Firebase stores arrays as objects where the key of each object is the `id` of the model.
+Thanks to Firebase, the Radio4000 data can be accessed with classic REST as well as realtime through the Firebase SDK. The [Firebase documentation](https://firebase.google.com/docs/) explains how you can access data for various platforms: Web, Android, iOS, C++, Unity. This API supports `GET` HTTP methods. There is no versioning for this API as we have to follow and replicate any changes made at the Firebase level. Note that Firebase stores arrays as objects where the key of each object is the `id` of the model.
 
 ## Rules & authentication
 
@@ -83,7 +83,7 @@ Requires authentication to read and write.
 
 |name|type|description|
 |----|----|----|
-|user|belongsTo (string)|Relationship to a single `user` model. Example: `"fAE1TRvTctbK4bEra3GnQdBFcqj2"`|
+|user|`belongsTo`|Relationship to a single `user` model. Example: `"fAE1TRvTctbK4bEra3GnQdBFcqj2"`|
 
 ### channel
 
@@ -109,14 +109,14 @@ Requires authentication to write.
 
 |name|type|description|
 |-|-|-|
-|channel|`belongsTo` (`string`)|`channel` model to which belongs this `channelPublic`. Example: `"-JYEosmvT82Ju0vcSHVP"`|
+|channel|`belongsTo`)|`channel` model to which belongs this `channelPublic`. Example: `"-JYEosmvT82Ju0vcSHVP"`|
 |followers|`hasMany`|list of `channel` models following this radio. Example: `"-JXHtCxC9Ew-Ilck6iZ8": true`|
 
 ### Image
 
 |name|type|description|
 |-|-|-|
-|channels|belongsTo, string|relationship to the `channel` model|
+|channels|`belongsTo`|relationship to the `channel` model|
 |src|string|`id` of the `cloudinary` model which stores this image data.|
 
 todo: explain our integration of the Cloudinary service.
