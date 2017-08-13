@@ -91,14 +91,14 @@ Requires authentication to write.
 
 |name|type|description|
 |----|----|----|
-|body|`string`|user description of the radio channel. Example: `"The channel of your wet dreams, an ode to perfu..."`|
+|body|`string`|description of the radio channel. Example: `"The channel of your wet dreams..."`|
 |channelPublic|`belongsTo`|relationship to a `channelPublic`. Example: `"-JoJm13j3aGTWCT_Zbir"`|
 |created|`integer`|timestamp describing when was this radio channel created. Example: `"1411213745028"`|
-|favoriteChannels|`hasMany`|list of all channels this radio has added as favorites. Example: `"-JXHtCxC9Ew-Ilck6iZ8": true`|
+|favoriteChannels|`hasMany`|list of channels this radio has added as favorite. Example: `"-JXHtCxC9Ew-Ilck6iZ8": true`|
 |images|`hasMany`|list of `image` models. Example: `"-JoJypAujT2z0qcWnYjW": true`|
-|isFeatured|`boolean`|is this radio channel featured on radio4000's homepage . Example: `false`|
-|link|`string`|URL describing the external homepage for a radio channel. Example: `"https://example.com"`|
-|slug|`string`|the unique "string id" representing this channel (used for human readable urls radio4000.com/slug). Example: `"oskar"`|
+|isFeatured|`boolean`|whether this channel is featured on Radio4000's homepage. Example: `false`|
+|link|`string`|Custom URL describing the external homepage for a radio channel. Example: `"https://example.com"`|
+|slug|`string`|the unique URL representing this channel. Used for human readable urls radio4000.com/pirate-radio). Example: `"pirate-radio"`|
 |title|`string`|title representing a radio channel. Example: `"Radio Oskar"`|
 |tracks|`hasMany`|list of `track` models. Example: `{"-J_GkkhzfbefhHMqV5qi": true, ...}`|
 |updated|`integer`|timestamp when the radio was last updated. Example: `1498137205047`|
