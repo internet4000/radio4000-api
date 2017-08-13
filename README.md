@@ -19,6 +19,8 @@ Thanks to Firebase the Radio4000 data can be accessed in realtime through this A
 
 The Firebase security rules can be found in `database.rules.json`. This is the most precise definition of what can and should be done with the API. Most endpoints can be read without authentication. Reading a user, a userSettings or writing to (some) models always require authentication. For now, think of the API as read-only.
 
+The rules can be pushed to the live Firebase instance of Radio4000 with `yarn deploy-rules`. Also see [deployment](#installation-development--and-deployment).
+
 ## Endpoints
 
 Here's a list of available REST endpoints. They are all available via normal `GET` HTTP requests.
