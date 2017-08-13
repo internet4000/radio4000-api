@@ -257,13 +257,12 @@ Deploying the rules will push `database.rules.json` to the production instance o
 
 ## Frequently and not-frequently asked questions (FAQNFAQ)
 
-- Why Firebase?
-
+**Why Firebase?**
 Firebase allowed this project to come to life without having the need to spend time building and maintaining backend software. It also allows us to be more secure we think we could be on our own, handling the storage and protection of user's sensitive data. In a perfect world we would like to have a backend that we fully control, running only free and open source softwares. The future will be great.
 
-- Which projects use the Radio4000 API?
+**Which projects use the Radio4000 API?**
 
-- [radio4000.com](https://github.com/internet4000/radio4000): the main website use this exact API via the JavaScript SDK.
-- [radio4000-player-vue](https://github.com/internet4000/radio4000-player-vue): the media player used by radio4000.com is a vue.js project communicating with this API via REST.
+- [radio4000.com](https://github.com/internet4000/radio4000): the main website use this exact API via the JavaScript SDK.  
+- [radio4000-player](https://github.com/internet4000/radio4000-player): the media player used by radio4000.com is a vue.js project communicating with this API via REST.
 
 Do you want your project to appear here? Send a pull request or get in touch!
