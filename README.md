@@ -180,7 +180,11 @@ Firebase allowed this project to come to life without having the need to spend t
 
 **Which projects use the Radio4000 API?**
 
-- [radio4000.com](https://github.com/internet4000/radio4000): the main website use this exact API via the JavaScript SDK.  
-- [radio4000-player](https://github.com/internet4000/radio4000-player): the media player used by radio4000.com is a vue.js project communicating with this API via REST.
+- [radio4000.com](https://github.com/internet4000/radio4000): the main website use this exact API via the JavaScript SDK.
+- [radio4000-player](https://github.com/internet4000/radio4000-player):
+  the media player used by radio4000.com is a vue.js project
+  communicating with this API via REST. 
+- [mix.radio4000.com](https://github.com/internet4000/radio4000-mix):
+  mix radio4000 channels together
 
 Do you want your project to appear here? Send a pull request or get in touch!
