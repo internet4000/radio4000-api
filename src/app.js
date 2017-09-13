@@ -9,7 +9,7 @@ const pkg = require('./package.json')
 const getIframe = require('./utils/get-iframe')
 const getOEmbed = require('./utils/get-oembed')
 
-const payments = require('./payments')
+const billings = require('./billings')
 
 
 /*
@@ -86,7 +86,7 @@ app.get('/', function (req, res) {
 		dataUrl: 'https://radio4000.firebaseio.com',
 		iframeUrl: host + '/embed',
 		oembedUrl: host + '/oembed',
-		paymentsUrl: host + '/payments'
+		billingsUrl: host + '/billings'
 	})
 })
 
@@ -128,7 +128,7 @@ function getChannelBySlug(slug) {
 }
 
 
-app.use('/payments', payments)
+app.use('/billings', billings)
 
 
 /*
