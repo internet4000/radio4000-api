@@ -84,7 +84,7 @@ app.get('/', function (req, res) {
 		message: 'Welcome to the Radio4000 api',
 		documentationUrl: 'https://github.com/internet4000/radio4000-api',
 		dataUrl: 'https://radio4000.firebaseio.com',
-		iframeUrl: host + '/embed',
+		embedUrl: host + '/embed',
 		oembedUrl: host + '/oembed',
 		billingsUrl: host + '/billings'
 	})
