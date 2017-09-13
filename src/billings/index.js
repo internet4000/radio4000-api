@@ -11,6 +11,12 @@ const keySecret = 'sk_test_F2Qx73O5Q4ggCF46ueqhte3c';
 
 const stripeApp = stripe(keySecret);
 
+billings.get('/', function(req, res) {
+	res.json({
+		error: 'this endpoint does not exist, check usage on the documentation'
+	})
+});
+
 billings.post('/', function (req, res) {
 	const data = req.body
   if (!data || !data.stripeCard) return res.sendStatus(400)
