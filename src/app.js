@@ -83,12 +83,12 @@ app.get('/', function (req, res) {
 	res.json({
 		message: 'Welcome to the Radio4000 api',
 		documentationUrl: 'https://github.com/internet4000/radio4000-api',
-		iframeUrl: host + '/iframe',
+		iframeUrl: host + '/embed',
 		oembedUrl: host + '/oembed'
 	})
 })
 
-app.get('/iframe', function (req, res) {
+app.get('/embed', function (req, res) {
 	const slug = req.query.slug
 	const usage = `?slug={radio4000-channel-slug}`
 	if (!slug) return notEndpointPath(req, res, usage)
