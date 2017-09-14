@@ -10,6 +10,8 @@ const getIframe = require('./utils/get-iframe')
 const getOEmbed = require('./utils/get-oembed')
 
 const billings = require('./billings')
+const oEmbed = require('./oembed')
+const embed = require('./embed')
 
 
 /*
@@ -63,19 +65,6 @@ if (NODE_ENV === 'production') {
 
 
 /*
- * Create documentation
- * for existing enpoints, but wrong path
- * */
-
-function notEndpointPath(req, res, usage = '') {
-	res.status(404).json({
-		message: 'NOT FOUND',
-		usage: host + req.path + usage
-	})
-}
-
-
-/*
  * Routes
  * */
 
@@ -90,45 +79,10 @@ app.get('/', function (req, res) {
 	})
 })
 
-app.get('/embed', function (req, res) {
-	const slug = req.query.slug
-	const usage = `?slug={radio4000-channel-slug}`
-	if (!slug) return notEndpointPath(req, res, usage)
-	res.send(getIframe(slug, R4PlayerScriptUrl))
-})
 
-app.get('/oembed', (req, res, next) => {
-	const slug = req.query.slug
-	const usage = '?slug={radio4000-channel-slug}'
-	if (!slug) return notEndpointPath(req, res, usage)
-
-	getChannelBySlug(slug).then(response => {
-		const channels = JSON.parse(response.body)
-		const id = Object.keys(channels)[0]
-		let channel = channels[id]
-		channel.id = id
-		if (!channel) return notEndpointPath(req, res, usage)
-		const embedHtml = getOEmbed(host, channel)
-		res.send(embedHtml)
-	}).catch(error => {
-		res.status(500).send({
-			'message': `Could not fetch channel from ${R4ApiRoot}`,
-			'code': 500,
-			'internalError': error
-		})
-	})
-})
-
-function getChannelBySlug(slug) {
-	const url = `${R4ApiRoot}channels.json?orderBy="slug"&equalTo="${slug}"`
-	return got(url, {
-		timeout: 6000,
-		retries: 1
-	})
-}
-
-
-app.use('/billings', billings)
+app.use('/embed', embed);
+app.use('/oembed', oEmbed);
+app.use('/billings', billings);
 
 
 /*
