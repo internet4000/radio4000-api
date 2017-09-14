@@ -1,32 +1,42 @@
-const express = require('express');
-const oembed  = express.Router();
+const express = require('express')
+const got = require('got')
+const config = require('../utils/config')
+const noEndpoint = require('../utils/no-endpoint')
+const getOEmbed = require('../utils/get-oembed')
 
-oembed.get('/', (req, res, next) => {
-	const slug = req.query.slug
-	const usage = '?slug={radio4000-channel-slug}'
-	if (!slug) return notEndpointPath(req, res, usage)
-
-	getChannelBySlug(slug).then(response => {
-		const channels = JSON.parse(response.body)
-		const id = Object.keys(channels)[0]
-		let channel = channels[id]
-		channel.id = id
-		if (!channel) return notEndpointPath(req, res, usage)
-		const embedHtml = getOEmbed(host, channel)
-		res.send(embedHtml)
-	}).catch(error => {
-		res.status(500).send({
-			'message': `Could not fetch channel from ${R4ApiRoot}`,
-			'code': 500,
-			'internalError': error
-		})
-	})
-})
+const route = express.Router();
 
 function getChannelBySlug(slug) {
-	const url = `${R4ApiRoot}channels.json?orderBy="slug"&equalTo="${slug}"`
+	const url = `${config.databaseURL}/channels.json?orderBy="slug"&equalTo="${slug}"`
 	return got(url, {
 		timeout: 6000,
 		retries: 1
 	})
 }
+
+route.get('/', function (req, res) {
+	const slug = req.query.slug
+	const usage = '?slug={radio4000-channel-slug}'
+
+	if (!slug) return noEndpoint(req, res, usage)
+
+	getChannelBySlug(slug).then(response => {
+		const channels = JSON.parse(response.body)
+		const id = Object.keys(channels)[0]
+		const channel = channels[id]
+
+		if (!channel) return noEndpoint(req, res, usage)
+			
+		channel.id = id
+		const embedHtml = getOEmbed(channel)
+		res.send(embedHtml)
+	}).catch(err => {
+		res.status(500).send({
+			message: `Could not fetch channel from ${url}`,
+			code: 500,
+			internalError: err
+		})
+	})
+})
+
+module.exports = route
