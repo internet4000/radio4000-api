@@ -8,6 +8,9 @@ install:
 script:
   - yarn test
 
+before_deploy:
+  - yarn add firebase-tools
+
 deploy:
   - provider: script
     script: yarn deploy-rules && yarn deploy-api
