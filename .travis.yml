@@ -4,15 +4,24 @@ dist: trusty
 
 install:
   - yarn install
+  - yarn add firebase-tools
 
 script:
   - yarn test
 
-before_deploy:
-  - yarn add firebase-tools
+# before_deploy:
+#   - yarn add firebase-tools
 
 deploy:
   - provider: script
     script: yarn deploy-rules && yarn deploy-api
     on:
       branch: ci-deploy
+
+# jobs:
+#   include:
+#     - stage: test
+#       script: yarn test
+#     - stage: deploy
+#       script: yarn deploy-rules
+#       script: yarn deploy-api
