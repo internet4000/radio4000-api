@@ -7,3 +7,9 @@ install:
 
 script:
   - yarn test
+
+deploy:
+  - provider: script
+    script: yarn deploy-rules && yarn deploy-api
+    on:
+      branch: ci-deploy
