@@ -24,7 +24,6 @@ jobs:
   include:
     - stage: test
       script: yarn test
-
-    - stage: deploy
+    - stage: deploy to firebase
       script: yarn deploy-rules
       script: yarn deploy-api
