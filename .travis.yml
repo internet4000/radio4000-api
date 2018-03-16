@@ -14,6 +14,10 @@ script:
 # before_deploy:
 #   - yarn add firebase-tools
 
+stages:
+  - test
+  - name: deploy-staging
+    if: branch = production
 # deploy:
 #   - provider: script
 #     script: yarn deploy-rules && yarn deploy-api
@@ -24,6 +28,6 @@ jobs:
   include:
     - stage: test
       script: yarn test
-    - stage: deploy to firebase
+    - stage: deploy
       script: yarn deploy-rules
-      script: yarn deploy-api
+    - script: yarn deploy-api
