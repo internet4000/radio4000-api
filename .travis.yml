@@ -20,7 +20,7 @@ jobs:
       script: yarn test
     - stage: deploy-staging
       script: yarn deploy-rules
-      script: yarn deploy-api
+    - script: yarn deploy-api
     # - stage: deploy-production
     #   script: yarn deploy-rules-production; yarn deploy-api-production
 
