@@ -12,7 +12,7 @@ install:
 stages:
   - test
   - name: deploy-staging
-    if: branch = master
+    # if: branch = master
   - name: deploy-production
     if: branch = production
 
