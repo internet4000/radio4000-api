@@ -9,9 +9,9 @@ install:
 stages:
   - test
   - deploy-staging
-  # if: branch = master
+    if: branch = master
   - deploy-production
-  if: branch = production
+    if: branch = production
 
 jobs:
   include:
