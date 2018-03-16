@@ -8,9 +8,9 @@ install:
 
 stages:
   - test
-  - deploy-staging
+  - name: deploy-staging
     if: branch = master
-  - deploy-production
+  - name: deploy-production
     if: branch = production
 
 jobs:
