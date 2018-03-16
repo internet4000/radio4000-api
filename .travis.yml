@@ -4,30 +4,22 @@ dist: trusty
 cache: yarn
 
 install:
-  # - yarn global add firebase-tools
-  - yarn install
+  # - yarn install
   - npm i -g firebase-tools
-
-script:
-  - yarn test
-
-# before_deploy:
-#   - yarn add firebase-tools
 
 stages:
   - test
-  - name: deploy-staging
-    if: branch = production
-# deploy:
-#   - provider: script
-#     script: yarn deploy-rules && yarn deploy-api
-#     on:
-#       branch: ci-deploy
+  - deploy-staging
+  # if: branch = master
+  - deploy-production
+  if: branch = production
 
 jobs:
   include:
     - stage: test
       script: yarn test
-    - stage: deploy
-      script: yarn deploy-rules
-    - script: yarn deploy-api
+    - stage: deploy-staging
+      script: yarn deploy-rules; yarn deploy-api
+    - stage: deploy-production
+      script: yarn deploy-rules-production; yarn deploy-api-production
+
