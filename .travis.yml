@@ -4,9 +4,6 @@ dist: trusty
 cache: yarn
 
 # Runs before each stage
-install:
-  - npm i -g firebase-tools
-  - yarn
 
 # Define order and conditions of stages
 stages:
@@ -20,12 +17,14 @@ stages:
 jobs:
   include:
     - stage: test
-      script: yarn test
+      script: yarn; yarn test
 
     - stage: deploy-staging
+      install: npm i -g firebase-tools
       script: yarn deploy-rules
     - script: yarn deploy-api
 
     - stage: deploy-production
+      install: npm i -g firebase-tools
       script: yarn deploy-rules-production
     - script: yarn deploy-api-production
