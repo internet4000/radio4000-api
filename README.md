@@ -159,7 +159,9 @@ You can test it using `yarn test` which runs `ava` on the `test` folder.
 
 ## Deployment
 
-This repo is configured to deploy automatically whenever you push to either the `master` or `production` branch. See the `.travis.yml` file.
+The `master` branch will automatically deploy to staging. And `production` branch to production.
+
+Also see the `.travis.yml` file.
 
 To deploy manually, do this:
 
