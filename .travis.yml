@@ -18,8 +18,7 @@ jobs:
       script: yarn test
 
     - stage: deploy-staging
-      install: skip
-    - script: npm i -g firebase-tools; yarn deploy-rules && yarn deploy-api
+    - script: npm i -g firebase-tools; yarn deploy-rules; yarn deploy-api
 
     - stage: deploy-production
       script: npm i -g firebase-tools; yarn deploy-rules-production; yarn deploy-api-production
