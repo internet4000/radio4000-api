@@ -15,14 +15,11 @@ stages:
 jobs:
   include:
     - stage: test
-      script: yarn; yarn test
+      script: yarn test
 
     - stage: deploy-staging
-      script: npm i -g firebase-tools
-    - script: yarn deploy-rules
-    - script: yarn deploy-api
+      install: skip
+    - script: npm i -g firebase-tools; yarn deploy-rules && yarn deploy-api
 
     - stage: deploy-production
-      script: npm i -g firebase-tools
-    - script: yarn deploy-rules-production
-    - script: yarn deploy-api-production
+      script: npm i -g firebase-tools; yarn deploy-rules-production; yarn deploy-api-production
