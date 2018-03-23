@@ -5,12 +5,18 @@ cache: yarn
 
 # Define order and conditions of stages
 stages:
+  - name: test
+  - name: deploy-staging
+    if: branch = master
   - name: deploy-production
     if: branch = production
 
 # Define stages and their scripts
 jobs:
   include:
+    - stage: test
+      script: yarn; yarn test
+
     - stage: deploy-staging
       script: npm i -g firebase-tools
     - script: yarn deploy-rules
