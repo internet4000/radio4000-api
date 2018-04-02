@@ -3,14 +3,6 @@ node_js: 9
 dist: trusty
 cache: yarn
 
-# Define order and conditions of stages
-stages:
-  - name: test
-  - name: deploy-staging
-    if: branch = master
-  - name: deploy-production
-    if: branch = production
-
 # Define stages and their scripts
 jobs:
   include:
@@ -18,7 +10,13 @@ jobs:
       script: yarn test
 
     - stage: deploy-staging
-    - script: npm i -g firebase-tools; yarn deploy-rules; yarn deploy-api
+      if: branch IN (master, ci-deploy)
+      script:
+        - yarn deploy-rules
+        - yarn deploy-api
 
     - stage: deploy-production
-      script: npm i -g firebase-tools; yarn deploy-rules-production; yarn deploy-api-production
+      if: branch = production
+      script:
+        - yarn deploy-rules-production
+        - yarn deploy-api-production
