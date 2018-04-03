@@ -4984,9 +4984,9 @@ query-string@^5.0.1:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
-radio4000-sdk@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/radio4000-sdk/-/radio4000-sdk-0.0.4.tgz#da57c4f0ce1da26421f307cada2fb6689f46cb2c"
+radio4000-sdk@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/radio4000-sdk/-/radio4000-sdk-0.0.5.tgz#8de7f33ebc451200501f6e88a8f36803d4b803f8"
   dependencies:
     isomorphic-unfetch "^2.0.0"
 
