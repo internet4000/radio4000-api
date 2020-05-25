@@ -5,15 +5,16 @@ const stripe = require('stripe')
 const config = require('../config')
 const noEndpoint = require('../utils/no-endpoint')
 
-admin.initializeApp(functions.config().firebase)
-
 const billings = express.Router()
 
-let stripePrivateKey = functions.config().stripe.private_key
-let stripePublicKey = functions.config().stripe.public_key
+let {stripeConfig} = functions.config()
+stripeConfig = stripeConfig || {}
+
+let stripePrivateKey = stripeConfig.private_key
+let stripePublicKey = stripeConfig.public_key
 if (process.env.NODE_ENV === 'production') {
-	stripePrivateKey = functions.config().stripe.production_private_key
-	stripePublicKey = functions.config().stripe.production_public_key
+	stripePrivateKey = stripeConfig.production_private_key
+	stripePublicKey = stripeConfig.production_public_key
 }
 
 const keySecret = stripePrivateKey
